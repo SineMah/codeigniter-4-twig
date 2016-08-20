@@ -5,11 +5,17 @@ namespace Mongo;
 class Connection {
 
 	protected $db = false;
+	protected $database = false;
 	protected $collection = false;
+
+	public function __construct($db) {
+
+		$this->database = $db;
+	}
 
 	public function setDb($name) {
 		
-		$this->db = $name;
+		$this->database = $name;
 	}
 
 	public function setCollection($name) {

@@ -20,7 +20,7 @@ class Client {
 		$this->config = $config;
 
 		$this->loader = new \Mongo\Autoload();
-		$this->loader->init();
+		$this->loader->init($db);
 	}
 
 	public static function instance() {

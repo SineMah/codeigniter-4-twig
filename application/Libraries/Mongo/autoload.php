@@ -17,7 +17,7 @@ class Autoload {
 		);
 	}
 
-	public function init() {
+	public function init($db) {
 
 		foreach ($this->classes as $class) {
 			$file = __DIR__ . DIRECTORY_SEPARATOR . 'Classes' . DIRECTORY_SEPARATOR . $class . '.php';
@@ -30,7 +30,7 @@ class Autoload {
 
 				$classname = 'Mongo\\' . $class;
 
-				$this->instances[$class] = new $classname();
+				$this->instances[$class] = new $classname($db);
 
 				$this->loaded[$class] = get_class_methods($this->instances[$class]);
 			}

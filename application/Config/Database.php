@@ -35,7 +35,7 @@ class Database extends \CodeIgniter\Database\Config
 		'username'     => '',
 		'password'     => '',
 		'database'     => '',
-		'DBDriver'     => 'MySQLi',
+		'DBDriver'     => '',
 		'DBPrefix'     => '',
 		'pConnect'     => false,
 		'DBDebug'     => (ENVIRONMENT !== 'production'),

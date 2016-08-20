@@ -9,6 +9,8 @@ class Home extends \CodeIgniter\Controller
 			'version' => \CodeIgniter\CodeIgniter::CI_VERSION,
 		);
 
+		\Mongo\Client::instance()->setDb('sine');
+
 		return \Twig::instance()->display('app.html', $data);
 	}
 }

@@ -57,7 +57,10 @@ class Client {
 
 	protected static function getDsn($config) {
 
-        return 'mongodb://' . $config->host . ':' . $config->port;
+		if(empty($config->user) || empty($config->password))
+			return 'mongodb://' . $config->host . ':' . $config->port;
+
+		return 'mongodb://' . $config->user . ':' . $config->password . '@' . $config->host . ':' . $config->port;
     }
 
     protected static function createConnection($dsn, $config) {

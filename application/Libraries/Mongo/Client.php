@@ -72,6 +72,10 @@ class Client {
     	if($class === false)
     		return false;
 
-    	return $this->loader->execute($class, $name, $args);
+    	$connection = $this->loader->getObject('Connection');
+
+    	$connection->setDb($this->config->databse);
+
+    	return $this->loader->execute($class, $name, $args, $connection);
     }
 }

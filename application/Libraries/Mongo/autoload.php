@@ -17,7 +17,7 @@ class Autoload {
 		);
 	}
 
-	public function init($db) {
+	public function init($db=false) {
 
 		foreach ($this->classes as $class) {
 			$file = __DIR__ . DIRECTORY_SEPARATOR . 'Classes' . DIRECTORY_SEPARATOR . $class . '.php';
@@ -50,11 +50,22 @@ class Autoload {
 		return false;
 	}
 
-	public function execute($class, $func, $args) {
+	public function execute($class, $func, $args, $connection=false) {
 
 		if(!is_array($args))
 			$args = array($args);
 
+		if($connection)
+			array_push($args, $connection);
+
 		return call_user_func_array(array($this->instances[$class], $func), $args);
+	}
+
+	public function getObject($class) {
+
+		if(!array_key_exists($class, $this->instances))
+			return false;
+
+		return $this->instances[$class];
 	}
 }

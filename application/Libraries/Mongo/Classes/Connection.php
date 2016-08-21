@@ -4,7 +4,7 @@ namespace Mongo;
 
 class Connection {
 
-	protected $db = false;
+	protected $dbName = false;
 	protected $database = false;
 	protected $collection = false;
 
@@ -15,7 +15,7 @@ class Connection {
 
 	public function setDb($name) {
 		
-		$this->database = $name;
+		$this->dbName = $name;
 	}
 
 	public function setCollection($name) {
@@ -25,7 +25,12 @@ class Connection {
 
 	public function getDb() {
 		
-		return $this->db;
+		return $this->dbName;
+	}
+
+	public function getConnection() {
+		
+		return $this->database;
 	}
 
 	public function getCollection() {

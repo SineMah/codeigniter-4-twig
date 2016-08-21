@@ -9,21 +9,60 @@ class Query extends \Mongo\Connection {
 
 	protected $database = false;
 	private $params;
+	private $queryOptions;
 
 	public function __construct($db) {
 
 		$this->database = $db;
 
 		$this->initParams();
+
+		$this->queryOptions = array('awaitDat', 'batchSize', 'exhaust', 'limit', 'modifiers', 'noCursorTimeout', 'oplogReplay', 'partial', 'projection', 'readConcern', 'skip', 'slaveOk', 'sort', 'tailable');
 	}
 
-	public function where() {
+	public function select($filter=array(), $connection=false) {
+		$options = $this->buildOptions($filter);
+		$query = $this->buildQuery($filter);
 
-		return $this;
-	}
+		$query = new \MongoDB\Driver\Query($query, $options);
+		
+		$result = array();
+		$connection = $this->getConn($connection);
 
-	public function select() {
+		$cursor = $connection->getConnection()->executeQuery($connection->getDB() . '.' . $this->params['collection'], $query);
+
 		$this->initParams();
+
+		return $cursor->toArray();
+	}
+
+	private function buildOptions($data) {
+		$options = array();
+
+		// sort example
+		// 'sort' => array(
+        //     'views' => -1,
+    	// )
+
+		foreach ($data as $key => $value) {
+			
+			if(in_array($key, $this->queryOptions))
+				$options[$key] = $value;
+		}
+
+		return $options;
+	}
+
+	private function buildQuery($data) {
+		$query = array();
+
+		foreach ($data as $key => $value) {
+			
+			if(!in_array($key, $this->queryOptions))
+				$query[$key] = $value;
+		}
+
+		return $query;
 	}
 
 	public function insert(array $insert, $connection=false) {
